@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Port Scanner</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Consolas, monospace;
+        }
+
+        body {
+            background: #050505;
+            color: #00ff88;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0,255,136,0.05),
+                    rgba(0,255,136,0.05) 1px,
+                    transparent 1px,
+                    transparent 40px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0,255,136,0.05),
+                    rgba(0,255,136,0.05) 1px,
+                    transparent 1px,
+                    transparent 40px
+                );
+            z-index: -1;
+        }
+
+        .container {
+            width: 850px;
+            max-width: 95%;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px solid #00ff88;
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #00ff88;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #7dffbe;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            border: 2px solid #00ff88;
+            background: #111;
+            color: #00ff88;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #00ff88;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #00cc66;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #00ff88;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #111;
+        }
+
+        .open {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .closed {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: gray;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>⚡ CYBER PORT SCANNER ⚡</h1>
+
+        <p class="subtitle">
+            Network Reconnaissance Dashboard
+        </p>
+
+        <form action="/scan" method="post">
+
+            <input
+                type="text"
+                name="ip"
+                placeholder="Enter Target IP Address (Example: 192.168.1.1)"
+                required>
+
+            <button type="submit">
+                SCAN
+            </button>
+
+        </form>
+
+        {% if results %}
+
+        <div class="results">
+
+            <h2>Results for {{ ip }}</h2>
+
+            <table>
+
+                <tr>
+                    <th>Port</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for result in results %}
+
+                <tr>
+                    <td>{{ result.port }}</td>
+
+                    {% if result.status == "OPEN" %}
+                    <td class="open">🟢 OPEN</td>
+                    {% else %}
+                    <td class="closed">🔴 CLOSED</td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+        {% endif %}
+
+        <div class="footer">
+            FastAPI Cyber Security Project
+        </div>
+
+    </div>
+
+</body>
+</html>
